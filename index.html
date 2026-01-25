@@ -380,10 +380,12 @@
 
         /*-----------------------------接続------------------------------*/
         op3.connect(feedback).connect(op3.frequency);
+        op6.connect(gain6).connect(op5.frequency);
+        op5.connect(gain5).connect(op4.frequency);
+        op4.connect(gain4).connect(oscOut);
         op3.connect(gain3).connect(op2.frequency);
         op2.connect(gain2).connect(op1.frequency);
         op1.connect(gain1).connect(oscOut);
-
         oscOut.connect(delay).connect(mix).connect(output);
         oscOut.connect(output).connect(drymix).connect(master);
         output.connect(convolver).connect(master).connect(audioctx.destination);
@@ -394,6 +396,9 @@
         op1.start();
         op2.start();
         op3.start();
+        op4.start();
+        op5.start();
+        op6.start();
         document.getElementById("stop").addEventListener("click", ()=>{
             audioctx.suspend();
         });
@@ -438,11 +443,14 @@
             gain3.gain.value = document.getElementById("op3levelval").innerHTML = document.getElementById("op3level").value;
 
             document.getElementById("op4freqval").innerHTML = modFreq[document.getElementById("op4freq").value];
-            document.getElementById("op4levelval").innerHTML = document.getElementById("op4level").value;
+            op4.frequency.value =  document.getElementById("op4freq").value * voiceFreq[0];
+            gain4.gain.value = document.getElementById("op4levelval").innerHTML = document.getElementById("op4level").value= voiceGain[0];
             document.getElementById("op5freqval").innerHTML = modFreq[document.getElementById("op5freq").value];
-            document.getElementById("op5levelval").innerHTML = document.getElementById("op5level").value;
+            op5.frequency.value = voiceFreq[0] * (modFreq[document.getElementById("op4freq").value] + modFreq[document.getElementById("op5freq").value]);
+            gain5.gain.value = document.getElementById("op5levelval").innerHTML = document.getElementById("op5level").value;
             document.getElementById("op6freqval").innerHTML = modFreq[document.getElementById("op6freq").value];
-            document.getElementById("op6levelval").innerHTML = document.getElementById("op6level").value;
+            op6.frequency.value = voiceFreq[0] * (modFreq[document.getElementById("op4freq").value] + modFreq[document.getElementById("op5freq").value] + modFreq[document.getElementById("op6freq").value]);
+            gain6.gain.value = document.getElementById("op6levelval").innerHTML = document.getElementById("op6level").value;
 
             feedback.gain.value = document.getElementById("feedbackval").innerHTML = document.getElementById("feedback").value;
 
