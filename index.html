@@ -379,7 +379,7 @@
         const master = new GainNode(audioctx);
 
         /*-----------------------------接続------------------------------*/
-        op3.connect(feedback).connect(op3.frequency);
+        op6.connect(feedback).connect(op6.frequency);
         op6.connect(gain6).connect(op5.frequency);
         op5.connect(gain5).connect(op4.frequency);
         op4.connect(gain4).connect(oscOut);
